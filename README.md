@@ -5,6 +5,7 @@
 ## INDEX
 ### [Part1. basic](./part1/README.md)
 #### ch1. 가상키보드
+![](./img/part1-01-virtual-keyboard.gif)
 #### ch2. 이미지 슬라이드
 #### ch3. date picker
 #### ch4. 계산기
