@@ -17,7 +17,7 @@ module.exports = {
             title: "keybord",
             template: "./index.html",
             inject: "body",
-            favicon: "./favicon.png"
+            favicon: "./favicon.ico"
         }),
 
         new MiniCssExtractPlugin({
