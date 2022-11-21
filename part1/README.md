@@ -296,6 +296,80 @@ webpack.config.js
   ```
   저장할 때 vscode에서 eslint & prettier 문법으로 fix 설정
 
+#### 2. 다크테마 설정
+
+- index.html
+
+```
+<html theme=""></html>
+```
+
+- style.css
+
+```
+html[theme="dark-mode"] {
+    filter: invert(100%) hue-rotate(180deg);
+}
+```
+
+- keyborad.js
+
+```
+export class Keyboard {
+
+    // 선언
+    #swithEl;
+
+    // 실행
+    constructor() {
+        this.#assignElement();
+        this.#addEvent();
+    }
+
+    // 탐색
+    #assignElement() {
+        this.#swithEl = document.getElementById("switch");
+    }
+
+    // 이벤트
+    #addEvent() {
+        this.#swithEl.addEventListener("change", e => {
+            document.documentElement.setAttribute(
+                "theme",
+                e.target.checked ? "dark-mode" : ""
+            )
+            console.log(e.target.checked);
+        });
+    }
+}
+```
+
+#### 3. 폰트 변경
+
+```
+export class Keyboard {
+    // 선언
+    #fontSelectEl;
+
+    // 실행
+    constructor() {
+        this.#assignElement();
+        this.#addEvent();
+    }
+
+    #assignElement() {
+        this.#fontSelectEl = document.getElementById("font");
+    }
+
+    #addEvent() {
+        this.#fontSelectEl.addEventListener("change", e => {
+            document.body.style.fontFamily = e.target.value;
+        })
+    }
+
+}
+```
+
 ### ch2. 이미지 슬라이드
 
 ### ch3. date picker
