@@ -5,7 +5,7 @@ export class Keyboard {
     #fontSelectEl; // 폰트 변경
     #keyboardEl; // 키보드
     #inputGroupEl; // 한글 불가 메세지 출력
-    #inputEl; // 한글 입력 불가
+    #inputEl; // 메세지 출력 (한글 출력 불가)
 
     //// 마우스 입력 시 키보드 사용 불가 기능
     #keyPress = false;  
