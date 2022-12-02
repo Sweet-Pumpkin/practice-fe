@@ -21,6 +21,8 @@
 
 #### [ch2. 이미지 슬라이드](#ch2-이미지-슬라이드)
 
+##### [1. webpack 개발환경 설정](#1-webpack-개발환경-설정)
+
 #### [ch3. date picker](#ch3-date-picker)
 
 #### [ch4. 계산기](#ch4-계산기)
@@ -502,6 +504,11 @@ export class Keyboard {
 ```
 
 ### ch2. 이미지 슬라이드
+
+#### 1. webpack 개발환경 설정
+
+1. `https://github.com/Billy-FE/webpack-boilerplate` 주소에서 `git clone`
+2. `npm i`
 
 ### ch3. date picker
 
