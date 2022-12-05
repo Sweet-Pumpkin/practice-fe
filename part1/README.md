@@ -507,8 +507,36 @@ export class Keyboard {
 
 #### 1. webpack 개발환경 설정
 
-1. `https://github.com/Billy-FE/webpack-boilerplate` 주소에서 `git clone`
-2. `npm i`
+1. webpack boilerplate 다운로드 
+1) `https://github.com/Billy-FE/webpack-boilerplate` 주소에서 `git clone`
+2) `npm i`
+
+2. font awesome 사용법
+1) `npm i --save @fortawesome/fontawesome-free`
+2) css file에 경로 추가하기
+```
+// style.css
+@import url(~@fortawesome/fontawesome-free/css/all.min.css);
+```
+
+3. HTML 이미지 설정
+1) webpack.config.js 설정
+```
+module: {
+    rules: [
+      {
+        // HTML 이미지 파일 설정
+        test: /\.jpeg$/,
+        type: 'assets/inline', // webpack의 내장된 loader로 jpeg 이미지 파일을 읽겠다는 설정
+      }
+    ],
+},
+```
+
+2) HTML 설정
+```
+<img src="<%= require('./src/image/red.jpeg') %>" alt="red" />
+```
 
 ### ch3. date picker
 
