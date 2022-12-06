@@ -12,6 +12,7 @@ export default class ImageSlider {
     sliderListEl;
     nextBtnEl;
     previousBtnEl;
+    indicaterWrapEl;
 
     /** 실행 */
     constructor() {
@@ -20,6 +21,8 @@ export default class ImageSlider {
         this.initSliderWidth();
         this.initSliderListWidth();
         this.addEvent();
+        this.createIndicator();
+        this.setIndicator();
     }
 
     /** 탐색 */
@@ -28,6 +31,7 @@ export default class ImageSlider {
         this.sliderListEl = this.sliderWrapEl.querySelector('#slider');
         this.nextBtnEl = this.sliderWrapEl.querySelector('#next');
         this.previousBtnEl = this.sliderWrapEl.querySelector('#previous');
+        this.indicaterWrapEl = this.sliderWrapEl.querySelector('#indicator-wrap');
     }
 
     /** 슬라이더 갯수 계산 */
@@ -47,8 +51,12 @@ export default class ImageSlider {
 
     /** 이벤트 실행 */
     addEvent() {
+        // 버튼 이벤트
         this.nextBtnEl.addEventListener('click', this.moveToRigth.bind(this));
         this.previousBtnEl.addEventListener('click', this.moveToLeft.bind(this));
+
+        // 인디케이터 클릭 이벤트
+        this.indicaterWrapEl.addEventListener('click', this.onClickIndicator.bind(this));
     }
 
     /** 슬라이드를 오른쪽으로 움직이게 하는 함수 */
@@ -61,6 +69,9 @@ export default class ImageSlider {
         }
 
         this.sliderListEl.style.left = `-${this.#sliderWidth * this.#currentPosition}px`;
+
+        // 인디케이터
+        this.setIndicator();
     }
 
     /** 슬라이드를 왼쪽으로 움직이게 하는 함수 */
@@ -73,6 +84,42 @@ export default class ImageSlider {
         }
 
         this.sliderListEl.style.left = `-${this.#sliderWidth * this.#currentPosition}px`;
+
+        // 인디케이터
+        this.setIndicator();
+    }
+
+    /** 인디케이터 갯수 동적 할당 */
+    createIndicator() {
+        const docFragment = document.createDocumentFragment();
+
+        for (let i = 0; i < this.#sliderNumber; i++) {
+            const li = document.createElement('li');
+            li.dataset.index = i;
+            docFragment.appendChild(li);
+        }
+
+        this.indicaterWrapEl.querySelector('ul').appendChild(docFragment);
+    }
+
+    /** 인디케이터 활성화 */
+    setIndicator() {
+        // index 비활성화 => index에 따라서 활성화
+        this.indicaterWrapEl.querySelector('li.active')?.classList.remove('active');
+        this.indicaterWrapEl.querySelector(`ul li:nth-child(${this.#currentPosition + 1})`).classList.add('active');
+    }
+
+    /** 인디케이터 클릭 이벤트 */
+    onClickIndicator(e) {
+        // 정수형으로 변환
+        const indexPosition = parseInt(e.target.dataset.index, 10);
+        
+        // 정수형이 아닐 경우 실행 x
+        if (Number.isInteger(indexPosition)) {
+            this.#currentPosition = indexPosition;
+            this.sliderListEl.style.left = `-${this.#sliderWidth * this.#currentPosition}px`;
+            this.setIndicator();
+        }
     }
 
 }
