@@ -538,6 +538,68 @@ module: {
 <img src="<%= require('./src/image/red.jpeg') %>" alt="red" />
 ```
 
+4. next & prev 버튼 설정
+
+1. 슬라이더 갯수 & 가로 길이 계산 or 초기화
+
+```
+// imageSlider.js
+/** 슬라이더 갯수 계산 */
+initSliderNumber() {
+    this.#sliderNumber = this.sliderListEl.querySelectorAll('li').length;
+}
+
+/** 슬라이더 가로 길이 계산 */
+initSliderWidth() {
+    this.#sliderWidth = this.sliderListEl.clientWidth;
+}
+```
+
+2. css 값 동적으로 변경
+1) style.css => `.slider-wrap ul.slider` => width : 100%
+
+2) 
+```
+imageSlider.js
+/** 슬라이더 리스트 가로 길이 동적 할당 */
+initSliderListWidth() {
+    this.sliderListEl.style.width = `${this.#sliderNumber * this.#sliderWidth}px`;
+}
+```
+
+3. next & prev btn 이벤트 추가
+```
+/** 이벤트 실행 */
+addEvent() {
+    this.nextBtnEl.addEventListener('click', this.moveToRigth.bind(this));
+    this.previousBtnEl.addEventListener('click', this.moveToLeft.bind(this));
+}
+
+/** 슬라이드를 오른쪽으로 움직이게 하는 함수 */
+moveToRigth() {
+    this.#currentPosition++;
+
+    /** 경계값 설정 */
+    if (this.#currentPosition === this.#sliderNumber) {
+        this.#currentPosition = 0;
+    }
+
+    this.sliderListEl.style.left = `-${this.#sliderWidth * this.#currentPosition}px`;
+}
+
+/** 슬라이드를 왼쪽으로 움직이게 하는 함수 */
+moveToLeft() {
+    this.#currentPosition--;
+
+    /** 경계값 설정 */
+    if (this.#currentPosition === -1) {
+        this.#currentPosition = this.#sliderNumber - 1;
+    }
+
+    this.sliderListEl.style.left = `-${this.#sliderWidth * this.#currentPosition}px`;
+}
+```
+
 ### ch3. date picker
 
 ### ch4. 계산기
