@@ -21,7 +21,13 @@
 
 #### [ch2. 이미지 슬라이드](#ch2-이미지-슬라이드)
 
-##### [1. webpack 개발환경 설정](#1-webpack-개발환경-설정)
+##### [1. webpack 개발환경 설정](#1-webpack-개발환경-설정--이미지-설정)
+
+##### [2. next & prev 버튼 설정](#2-next--prev-버튼-설정)
+
+##### [3. 인디케이터 개발](#3-인디케이터-개발)
+
+##### [4. Autoplay 개발](#4-autoplay-개발)
 
 #### [ch3. date picker](#ch3-date-picker)
 
@@ -505,7 +511,7 @@ export class Keyboard {
 
 ### ch2. 이미지 슬라이드
 
-#### 1. webpack 개발환경 설정
+#### 1. webpack 개발환경 설정 & 이미지 설정 
 
 1. webpack boilerplate 다운로드 
 1) `https://github.com/Billy-FE/webpack-boilerplate` 주소에서 `git clone`
@@ -538,7 +544,7 @@ module: {
 <img src="<%= require('./src/image/red.jpeg') %>" alt="red" />
 ```
 
-4. next & prev 버튼 설정
+#### 2. next & prev 버튼 설정
 
 1. 슬라이더 갯수 & 가로 길이 계산 or 초기화
 
@@ -597,6 +603,135 @@ moveToLeft() {
     }
 
     this.sliderListEl.style.left = `-${this.#sliderWidth * this.#currentPosition}px`;
+}
+```
+
+#### 3. 인디케이터 개발
+1. 동적 인디케이터 함수 설정
+```
+// imageSlider.js
+/** 선언 */
+sliderWrapEl;
+indicaterWrapEl;
+
+/** 탐색 */
+assignment() {
+    this.silderWrapEl = document.querySelector('slider-wrap);
+    this.indicaterWrapEl = this.sliderWrapEl.querySelector('indicator-wrap');
+}
+
+/** 인디케이터 갯수 동적 할당 */
+createIndicator() {
+    const docFragment = document.createDocumentFragment();
+
+    for (let i = 0; i < this.#sliderNumber; i++) {
+        const li = document.createElement('li');
+        li.dataset.index = i;
+        docFragment.appendChild(li);
+    }
+
+    this.indicaterWrapEl.querySelector('ul').appendChild(docFragment);
+}
+```
+
+2.  인디케이터 활성화 시키기
+```
+// imageSlider.js
+/** 인디케이터 활성화 */
+
+// 최소 실행시 인디케이터 활성화
+constructor() {
+    this.setIndicator();
+}
+
+// 버튼 클릭 시 인디케이터 활성화
+moveToLeft() {
+    // ~~~~~
+    this.setIndicator();
+}
+
+moveToRight() {
+    // ~~~~~
+    this.setIndicator();
+}
+
+setIndicator() {
+    // index 비활성화 => index에 따라서 활성화
+    this.indicaterWrapEl.querySelector('li.active')?.classList.remove('active');
+    this.indicaterWrapEl.querySelector(`ul li:nth-child(${this.#currentPosition + 1})`).classList.add('active');
+}
+```
+
+3. 인디케이터 클릭 이벤트
+```
+// imageSlider.js
+/** 인디케이터 클릭 이벤트 */
+onClickIndicator(e) {
+    // 정수형으로 변환
+    const indexPosition = parseInt(e.target.dataset.index, 10);
+    
+    // 정수형이 아닐 경우 실행 x
+    if (Number.isInteger(indexPosition)) {
+        this.#currentPosition = indexPosition;
+        this.sliderListEl.style.left = `-${this.#sliderWidth * this.#currentPosition}px`;
+        this.setIndicator();
+    }
+}
+```
+
+#### 4. Autoplay 개발
+
+```
+// imageSlider.js
+/** autoplay */
+initAutoplay() {
+    this.#intervalId = setInterval(this.moveToRigth.bind(this), 3000);
+}
+
+moveToRight() {
+    / ~~~~~ /
+
+    // autoplay 상태가 play인 경우 실행
+    if (this.#autoplay) {
+        // slider 동작 시 autoplay 중단
+        clearInterval(this.#intervalId);
+        // slider 동작 후 autoplay 실행
+        this.#intervalId = setInterval(this.moveToRigth.bind(this), 3000);
+    }
+
+}
+
+moveToLeft() {
+    / ~~~~~ /
+
+    // autoplay 상태가 play인 경우 실행
+    if (this.#autoplay) {
+        // slider 동작 시 autoplay 중단
+        clearInterval(this.#intervalId);
+        // slider 동작 후 autoplay 실행
+        this.#intervalId = setInterval(this.moveToRigth.bind(this), 3000);
+    }
+
+}
+
+/** 토글 이벤트 */
+togglePlay(e) {
+    if (e.target.dataset.status === 'play') {
+        this.#autoplay = true;
+        this.controlWrapEl.classList.remove('pause');
+        this.controlWrapEl.classList.add('play');
+
+        // autoplay 실행        
+        this.initAutoplay();
+
+    } else if (e.target.dataset.status === 'pause') {
+        this.#autoplay = false;
+        this.controlWrapEl.classList.remove('play');
+        this.controlWrapEl.classList.add('pause');
+
+        // autoplay 중단
+        clearInterval(this.#intervalId);  
+    }
 }
 ```
 

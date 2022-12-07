@@ -6,6 +6,8 @@ export default class ImageSlider {
     #currentPosition = 0;
     #sliderNumber = 0;
     #sliderWidth = 0;
+    #intervalId;
+    #autoplay = true;
 
     /** public field */
     sliderWrapEl;
@@ -13,6 +15,7 @@ export default class ImageSlider {
     nextBtnEl;
     previousBtnEl;
     indicaterWrapEl;
+    controlWrapEl;
 
     /** 실행 */
     constructor() {
@@ -23,6 +26,7 @@ export default class ImageSlider {
         this.addEvent();
         this.createIndicator();
         this.setIndicator();
+        this.initAutoplay();
     }
 
     /** 탐색 */
@@ -32,6 +36,7 @@ export default class ImageSlider {
         this.nextBtnEl = this.sliderWrapEl.querySelector('#next');
         this.previousBtnEl = this.sliderWrapEl.querySelector('#previous');
         this.indicaterWrapEl = this.sliderWrapEl.querySelector('#indicator-wrap');
+        this.controlWrapEl = this.sliderWrapEl.querySelector('#control-wrap'); 
     }
 
     /** 슬라이더 갯수 계산 */
@@ -57,6 +62,9 @@ export default class ImageSlider {
 
         // 인디케이터 클릭 이벤트
         this.indicaterWrapEl.addEventListener('click', this.onClickIndicator.bind(this));
+
+        // autoplay 이벤트
+        this.controlWrapEl.addEventListener('click', this.togglePlay.bind(this));
     }
 
     /** 슬라이드를 오른쪽으로 움직이게 하는 함수 */
@@ -72,6 +80,14 @@ export default class ImageSlider {
 
         // 인디케이터
         this.setIndicator();
+
+        // autoplay 상태가 play일 경우 실행
+        if (this.#autoplay) {
+            // slider 동작 동안 autoplay 멈추기
+            clearInterval(this.#intervalId); 
+            // slider 실행 후 autoplay 실행
+            this.#intervalId = setInterval(this.moveToRigth.bind(this), 3000);
+        }
     }
 
     /** 슬라이드를 왼쪽으로 움직이게 하는 함수 */
@@ -87,6 +103,14 @@ export default class ImageSlider {
 
         // 인디케이터
         this.setIndicator();
+
+        // autoplay 상태가 play일 경우 실행
+        if (this.#autoplay) {
+            // slider 동작 동안 autoplay 멈추기
+            clearInterval(this.#intervalId); 
+            // slider 실행 후 autoplay 실행
+            this.#intervalId = setInterval(this.moveToRigth.bind(this), 3000);
+        }
     }
 
     /** 인디케이터 갯수 동적 할당 */
@@ -122,4 +146,26 @@ export default class ImageSlider {
         }
     }
 
+    /** autoplay */
+    initAutoplay() {
+        this.#intervalId = setInterval(this.moveToRigth.bind(this), 3000);
+    }
+
+    /** 토글 이벤트 */
+    togglePlay(e) {
+        if (e.target.dataset.status === 'play') {
+            this.#autoplay = true;
+            this.controlWrapEl.classList.add('play');
+            this.controlWrapEl.classList.remove('pause');
+
+            this.initAutoplay();
+
+        } else if (e.target.dataset.status === 'pause') {
+            this.#autoplay = false;
+            this.controlWrapEl.classList.remove('play');
+            this.controlWrapEl.classList.add('pause');
+
+            clearInterval(this.#intervalId);  
+        }
+    }
 }
