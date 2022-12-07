@@ -160,6 +160,7 @@ module.exports = {
         <title>
             <% htmlWebpackPlugin.options.title %>
         </title>
+        <link rel="icon" href="<%= htmlWebpackPlugin.files.favicon %>">
     </head>
     <body>
 
