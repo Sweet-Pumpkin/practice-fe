@@ -439,15 +439,16 @@ export class Keyboard {
 #### 6. 마우스 이벤트
 
 - keyboard.js
+
 ```
 export class Keyboard {
-    // 선언 
+    // 선언
     #keyboardEl; // 키보드
     #inputGroupEl; // 한글 불가 메세지 출력
     #inputEl; // 메세지 출력 (한글 출력 불가)
 
     //// 마우스 입력 시 키보드 사용 불가 기능
-    #keyPress = false;  
+    #keyPress = false;
     #mouseDown = false;
 
     // 실행
@@ -499,7 +500,7 @@ export class Keyboard {
         if (isActive && val === "Space") {
             this.#inputEl.value += " ";
         }
-        // 백스페이스 
+        // 백스페이스
         if (isActive && val === "Backspace") {
             this.#inputEl.value = this.#inputEl.value.slice(0, -1);
         }
@@ -512,22 +513,27 @@ export class Keyboard {
 
 ### ch2. 이미지 슬라이드
 
-#### 1. webpack 개발환경 설정 & 이미지 설정 
+#### 1. webpack 개발환경 설정 & 이미지 설정
 
-1. webpack boilerplate 다운로드 
+1. webpack boilerplate 다운로드
+
 1) `https://github.com/Billy-FE/webpack-boilerplate` 주소에서 `git clone`
 2) `npm i`
 
 2. font awesome 사용법
+
 1) `npm i --save @fortawesome/fontawesome-free`
 2) css file에 경로 추가하기
+
 ```
 // style.css
 @import url(~@fortawesome/fontawesome-free/css/all.min.css);
 ```
 
 3. HTML 이미지 설정
+
 1) webpack.config.js 설정
+
 ```
 module: {
     rules: [
@@ -540,7 +546,8 @@ module: {
 },
 ```
 
-2) HTML 설정
+2. HTML 설정
+
 ```
 <img src="<%= require('./src/image/red.jpeg') %>" alt="red" />
 ```
@@ -563,9 +570,11 @@ initSliderWidth() {
 ```
 
 2. css 값 동적으로 변경
+
 1) style.css => `.slider-wrap ul.slider` => width : 100%
 
-2) 
+2)
+
 ```
 imageSlider.js
 /** 슬라이더 리스트 가로 길이 동적 할당 */
@@ -575,6 +584,7 @@ initSliderListWidth() {
 ```
 
 3. next & prev btn 이벤트 추가
+
 ```
 /** 이벤트 실행 */
 addEvent() {
@@ -608,7 +618,9 @@ moveToLeft() {
 ```
 
 #### 3. 인디케이터 개발
+
 1. 동적 인디케이터 함수 설정
+
 ```
 // imageSlider.js
 /** 선언 */
@@ -636,6 +648,7 @@ createIndicator() {
 ```
 
 2.  인디케이터 활성화 시키기
+
 ```
 // imageSlider.js
 /** 인디케이터 활성화 */
@@ -664,13 +677,14 @@ setIndicator() {
 ```
 
 3. 인디케이터 클릭 이벤트
+
 ```
 // imageSlider.js
 /** 인디케이터 클릭 이벤트 */
 onClickIndicator(e) {
     // 정수형으로 변환
     const indexPosition = parseInt(e.target.dataset.index, 10);
-    
+
     // 정수형이 아닐 경우 실행 x
     if (Number.isInteger(indexPosition)) {
         this.#currentPosition = indexPosition;
@@ -722,7 +736,7 @@ togglePlay(e) {
         this.controlWrapEl.classList.remove('pause');
         this.controlWrapEl.classList.add('play');
 
-        // autoplay 실행        
+        // autoplay 실행
         this.initAutoplay();
 
     } else if (e.target.dataset.status === 'pause') {
@@ -731,12 +745,153 @@ togglePlay(e) {
         this.controlWrapEl.classList.add('pause');
 
         // autoplay 중단
-        clearInterval(this.#intervalId);  
+        clearInterval(this.#intervalId);
     }
 }
 ```
 
 ### ch3. date picker
+
+1. snowpack & sass 설치
+
+1) `npm init -y`
+2) `npm i -D snowpack`
+3) `npm i -D @snowpack/plugin-sass`
+4) /public/index.html 설정
+
+```
+index.html
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="favicon.ico" />
+        <link rel="stylesheet" href="dist/scss/style.css" />
+    </head>
+    <body>
+
+        <script src="dist/js/index.js"></script>
+    </body>
+</html>
+```
+
+5. snowpack.config.js 설정
+
+```
+// snowpack.config.js
+module.exports = {
+
+    mount: {
+        public: { url: '/', static: true, },
+        src: { url: '/dist' }
+    },
+
+    optimize: {
+        minify: true
+    },
+
+    plugins: [
+        '@snowpack/plugin-sass'
+    ]
+}
+```
+
+6. package.json 설정
+
+```
+// package.json
+"scripts": {
+    "start": "snowpack dev",
+    "build": "snowpack build"
+},
+```
+
+7. eslint & prettier
+
+```
+// termial
+$ npm i -D eslint
+$ npm install --save-dev --save-exact prettier
+$ npm i -D eslint-config-prettier eslint-plugin-prettier
+
+// .eslintrc.json
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+
+    "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+
+    "parserOptions": {
+        "ecmaVersion": 13,
+        "sourceType": "module"
+    },
+
+    "rules": {
+        "prettier/prettier": "error"
+    }
+}
+
+// .eslintignore
+/node_modules
+/build
+snowpack.config.js
+
+// .prettierrc.json
+{
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "useTabs": false,
+    "semi": true,
+    "printWidth": 80,
+    "arrowParens": "avoid",
+    "proseWrap": "never",
+    "endOfLine": "auto",
+    "tabWidth": 2,
+    "singleQuote": true
+}
+
+// .prettierignore
+/node_modules
+/build
+snowpack.config.js
+```
+
+8. open workspace settings
+
+1) `cmd` + `shift` + `P`
+2) /.vscode/settings.json
+```
+// settings.json
+{
+    "editor.formatOnSave" : true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true 
+    }
+}
+```
+
+#### Date Picker HTML & CSS
+1. display grid
+```
+.container {
+    display: grid;
+    grid-template-columns: 1fs 4fs 1fs;
+    grid-template-rows: 1fs 2fs 1fs;
+}
+
+.item {
+    display: flex;
+    justify-content: center;
+
+
+// => 1   1      1
+//    1   1      1
+//    
+//    1   1      1
+}
+```
 
 ### ch4. 계산기
 
