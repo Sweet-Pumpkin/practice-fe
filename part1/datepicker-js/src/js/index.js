@@ -1,5 +1,6 @@
 class DatePicker {
   /** 선언 */
+  // Public
   monthData = [
     'January',
     'February',
@@ -15,6 +16,15 @@ class DatePicker {
     'December',
   ];
 
+  dataPickerEl;
+  dataInputEl;
+  calendarEl;
+  canlendarMonthEl;
+  nextBtnEl;
+  prevBtnEl;
+  calendarDatesEl;
+
+  // Private
   #calendarDate = {
     data: '',
     date: 0,
@@ -30,7 +40,9 @@ class DatePicker {
   };
 
   /** 실행 */
-  constructor() {}
+  constructor() {
+    this.assignElement();
+  }
 
   /** 캘린더 날짜 초기화 */
   initCalendarDate() {
@@ -45,5 +57,16 @@ class DatePicker {
       month,
       year,
     };
+  }
+
+  assignElement() {
+    this.dataPickerEl = document.getElementById('data-picker');
+    this.dataInputEl = this.dataPickerEl.querySelector('#data-input');
+    this.calendarEl = this.dataPickerEl.querySelector('#calendar');
+    this.canlendarMonthEl = this.calendarEl.querySelector('#month');
+    this.monthContentEl = this.canlendarMonthEl.querySelector('#content');
+    this.nextBtnEl = this.canlendarMonthEl.querySelector('#next');
+    this.prevBtnEl = this.canlendarMonthEl.querySelector('#prev');
+    this.calendarDatesEl = this.calendarEl.querySelector('#dates');
   }
 }
