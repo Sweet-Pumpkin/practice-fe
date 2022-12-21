@@ -2,18 +2,18 @@ class DatePicker {
   /** 선언 */
   // Public
   monthData = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    'Janvier',
+    'Février',
+    'Mars',
+    'Avril',
+    'Mai',
+    'Juin',
+    'Juillet',
+    'Août',
+    'Septembre',
+    'Octobre',
+    'Novembre',
+    'Décembre',
   ];
 
   dataPickerEl;
@@ -41,8 +41,15 @@ class DatePicker {
 
   /** 실행 */
   constructor() {
+    // 달력 정보 초기화
     this.initCalendarDate();
+    // 날짜 정보를 현재 날짜 정보로 저장
+    this.initSelectedDate();
+    // 탐색
     this.assignElement();
+    // date-input 날짜 정보 초기화
+    this.initDateInput();
+    // 이벤트 실행
     this.addEvent();
   }
 
@@ -81,11 +88,20 @@ class DatePicker {
     this.nextBtnEl.addEventListener('click', this.moveToNextMonth.bind(this));
     // 이전 달 버튼
     this.prevBtnEl.addEventListener('click', this.moveToPrevMonth.bind(this));
+    // 날짜 입력
+    this.calendarDatesEl.addEventListener(
+      'click',
+      this.onClickSelectDate.bind(this),
+    );
   }
 
   /** 토글 이벤트 */
   toggleCalendar() {
-    // 토글 active
+    // 날짜를 선택하지 않고 캘린더를 닫을 때, 선택한 날짜 정보로 덮어 씌우기
+    if (this.calendarEl.classList.contains('active')) {
+      this.#calendarDate = { ...this.#selected };
+    }
+    // 토글 active on
     this.calendarEl.classList.toggle('active');
     // 날짜 동적 입력
     // 토글 상단 달 ex) December
@@ -133,6 +149,8 @@ class DatePicker {
     this.colorSunday();
     // 오늘 날짜 마킹
     this.markToday();
+    // 선택한 날짜 마킹 유지
+    this.markSelectedDate();
   }
 
   colorSaturday() {
@@ -200,6 +218,67 @@ class DatePicker {
     // 갱신
     this.updateMonth();
     this.updateDates();
+  }
+
+  onClickSelectDate(e) {
+    const eventTarget = e.target;
+    if (eventTarget.dataset.date) {
+      this.calendarDatesEl
+        .querySelector('.selected')
+        ?.classList.remove('selected');
+    }
+    eventTarget.classList.add('selected');
+    this.#selected = {
+      data: new Date(
+        this.#calendarDate.year,
+        this.#calendarDate.month,
+        eventTarget.dataset.date,
+      ),
+      year: this.#calendarDate.year,
+      month: this.#calendarDate.month,
+      date: eventTarget.dataset.date,
+    };
+    // 클릭한 날짜 정보 표시
+    this.dataInputEl.textContent = this.formateDate(this.#selected.data);
+    // date-input 태그에 날짜 data 표시
+    this.dataInputEl.dataset.value = this.#selected.data;
+    // 토글 active off
+    this.calendarEl.classList.remove('active');
+  }
+
+  formateDate(dateData) {
+    let date = dateData.getDate();
+    if (date < 10) {
+      date = `0${date}`;
+    }
+
+    let month = dateData.getMonth() + 1;
+    if (month < 10) {
+      month = `0${month}`;
+    }
+
+    let year = dateData.getFullYear();
+    return `${year}/${month}/${date}`;
+  }
+
+  initSelectedDate() {
+    this.#selected = { ...this.#calendarDate };
+  }
+
+  initDateInput() {
+    this.dataInputEl.textContent = this.formateDate(this.#selected.data);
+    this.dataInputEl.dataset.value = this.#selected.data;
+  }
+
+  markSelectedDate() {
+    if (
+      this.#selected.year === this.#calendarDate.year &&
+      this.#selected.month === this.#calendarDate.month
+    ) {
+      this.calendarDatesEl
+        .querySelector(`[data-date='${this.#selected.date}']`)
+        .classList.add('selected');
+    }
   }
 }
 
