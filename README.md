@@ -11,5 +11,6 @@
 #### ch3. date picker
 ![](./img/part1-03-datepicker.gif)
 #### ch4. 계산기
+![](./img/part1-04-calculator.gif)
 #### ch5. bmi 계산기
 #### ch6. 이미지 계산기
