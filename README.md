@@ -9,6 +9,7 @@
 #### ch2. 이미지 슬라이드
 ![](./img/part1-02-slider.gif)
 #### ch3. date picker
+![](./img/part1-03-datepicker.gif)
 #### ch4. 계산기
 #### ch5. bmi 계산기
 #### ch6. 이미지 계산기
