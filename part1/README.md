@@ -873,7 +873,7 @@ snowpack.config.js
 ```
 
 #### Date Picker HTML & CSS
-1. display grid
+1. CSS : display grid
 ```
 .container {
     display: grid;
@@ -894,6 +894,17 @@ snowpack.config.js
 ```
 
 ### ch4. 계산기
+2. CSS : 중앙정렬
+```
+.wrapper {
+    display: grid;
+    place-items: center;
+    /*   place-content: center; */
+    min-height: 100vh;
+}
+```
+`place-items` => `align-items` & `justify-items`
+`place-content` => `align-content` & `justify-content`
 
 ### ch5. bmi 계산기
 
