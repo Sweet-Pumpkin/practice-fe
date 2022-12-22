@@ -894,7 +894,7 @@ snowpack.config.js
 ```
 
 ### ch4. 계산기
-2. CSS : 중앙정렬
+1. CSS : 중앙정렬
 ```
 .wrapper {
     display: grid;
@@ -907,5 +907,16 @@ snowpack.config.js
 `place-content` => `align-content` & `justify-content`
 
 ### ch5. bmi 계산기
+1. CSS `align-items`
+```
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+|o|o|o| => |o|o|x|
+|o|o|x|    |o|o|o|
+```
 
 ### ch6. 이미지 계산기
