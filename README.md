@@ -13,4 +13,5 @@
 #### ch4. 계산기
 ![](./img/part1-04-calculator.gif)
 #### ch5. bmi 계산기
+![](./img/part1-05-bmi.gif)
 #### ch6. 이미지 계산기
