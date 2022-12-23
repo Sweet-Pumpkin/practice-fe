@@ -9,17 +9,61 @@
     <script defer src="./main.js"></script>
 </head>
 <body>
-    <form class="container" onsubmit="onSubmit(event)">
+    <form 
+        class="container" 
+        onsubmit="onSubmit(event)" 
+        onreset="document.getElementById('res').style.display = 'none'"
+        >
         <div class="row">
             <div class="form-input">
                 <label for="weight">몸무게(kg)</label>
-                <input class="inp" type="number" placeholder="kg 단위" name="weight" id="weight" />
+                <input 
+                    class="inp" 
+                    type="number"
+                    step="0.1" 
+                    min="30" 
+                    placeholder="kg 단위" 
+                    name="weight" 
+                    id="weight"
+                />
             </div>
             <div class="form-input">
                 <label for="height">신장(m)</label>
-                <input class="inp" type="number" placeholder="m 단위" name="height" id="height" />
+                <input 
+                    class="inp" 
+                    type="number" 
+                    step="0.01" 
+                    min="0.5" 
+                    placeholder="m 단위" 
+                    name="height" 
+                    id="height" />
             </div>
             <button type="submit" class="btn">결과</button>
+        </div>
+        <div id="res">
+            <div class="row">
+                <meter 
+                    style="width: 100%;" 
+                    id="meter"
+                    min="10"
+                    max="30"
+                    optimum="22"
+                    low="18.5"
+                    high="25"
+                >
+                </meter>
+            </div>
+            <div class="res-text">
+                <div>
+                    당신의 BMI는 <span id="bmi"></span>입니다.
+                </div>
+                <div>
+                    <span id="state"></span>입니다.
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <button class="btn" type="reset">초기화</button>
+            </div>
         </div>
     </form>
 </body>

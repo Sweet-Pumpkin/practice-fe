@@ -1,7 +1,7 @@
 .container {
     display: grid;
-    place-items: center;
-    min-height: 100vh;
+    justify-content: center;
+    margin-top: 100px;
 }
 
 .row {
@@ -51,4 +51,26 @@
 .form-input label {
     font-size: 12px;
     color: #48AEFF;
+}
+
+#res {
+    display: none;
+    width: 588px;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.res-text {
+    color: #48AEFF;
+    text-align: center;
+}
+
+.res-text > div:nth-child(1) {
+    font-size: 32px;
+}
+
+.res-text > div:nth-child(2) {
+    font-size: 24px;
 }
