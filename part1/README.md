@@ -920,3 +920,21 @@ snowpack.config.js
 ```
 
 ### ch6. 이미지 계산기
+1. yarn install
+- yarn을 사용하는 것이 dependencies 관리나, 라이브러리 충돌 방지에 효율
+```
+npm install -g yarn
+```
+2. react & typescript install
+```
+yarn create react-app /** 폴더이름 */ --template typescript
+```
+
+3. 리액트 앱 실행
+```
+yarn start
+```
+
+4. 컴포넌트
+- 태그를 리턴하는 함수.
+- 컴포넌트는 태그가 될 수 있다.
