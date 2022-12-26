@@ -938,3 +938,56 @@ yarn start
 4. 컴포넌트
 - 태그를 리턴하는 함수.
 - 컴포넌트는 태그가 될 수 있다.
+
+5. 이미지 업로드
+```
+const [imageList, setImageList] = useState<string[]>([]);
+onChange={e => {
+    const file = e.currentTarget.files?.[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = event => {
+            setImageList(prev => [...prev, event.target?.result as string]);
+        }
+    }
+}}
+```
+
+6. react-dropzone
+- terminal
+```
+yarn add react-dropzone
+// or
+yarn add @types/react-dropzone
+```
+- App.tsx
+```
+import { useDropzone } from 'react-dropzone';
+const onDrop = useCallback((acceptedFiles: any) => {
+    if (acceptedFiles.length) {
+      for (const file of acceptedFiles) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = e => {
+          setImageList(prev => [...prev, e.target?.result as string]);
+        }
+      }
+    }
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+return (
+    <div 
+        className='plus-box'
+        {...getRootProps()}
+    >
+        <input 
+            type="file" 
+            ref={inputRef} 
+            {...getInputProps()}
+        />
+        +
+    </div>
+);
+```
