@@ -3,6 +3,8 @@
 > 2022.11.10 ~
 
 ## INDEX
+### [Part1. basic](#part1-basic)
+
 ### [Part1. basic](./part1/README.md)
 #### ch1. 가상키보드
 ![](./img/part1-01-virtual-keyboard.gif)
